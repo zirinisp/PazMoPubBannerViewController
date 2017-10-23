@@ -1,6 +1,6 @@
 //
-//  PazMoPubNavigationController.swift
-//  PazMoPubNavigationController
+//  PazMoPubBannerViewController.swift
+//  PazMoPubBannerViewController
 //
 //  Created by Pantelis Zirinis on 23/10/2017.
 //  Copyright © 2017 Pantelis Zirinis. All rights reserved.
@@ -8,17 +8,37 @@
 
 import UIKit
 
-public class PazMoPubNavigationController: UINavigationController {
+public class PazMoPubBannerViewController: UIViewController {
     
-    public init(rootViewController: UIViewController, adUnitId: String, active: Bool = true) {
+    public enum UpdateNotification {
+        case BannerViewActionWillBegin
+        case BannerViewActionDidFinish
+        case BannerViewClassBannerSizeChanged
+        case BannerViewClassAdUnitIdChanged
+        
+        var name: Notification.Name {
+            switch self {
+            case .BannerViewActionDidFinish:
+                return Notification.Name("BannerViewActionDidFinish")
+            case .BannerViewActionWillBegin:
+                return Notification.Name("BannerViewActionWillBegin")
+            case .BannerViewClassAdUnitIdChanged:
+                return Notification.Name("BannerViewClassAdUnitIdChanged")
+            case .BannerViewClassBannerSizeChanged:
+                return Notification.Name("BannerViewClassBannerSizeChanged")
+            }
+        }
+    }
+
+    // Initialize using a content view controller
+    public init(contentViewController: UIViewController, adUnitId: String, active: Bool = true) {
         self.adUnitId = adUnitId
         self.active = active
-        super.init(rootViewController: rootViewController)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        self.adUnitId = ""
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     // Setting everything in one function
@@ -121,7 +141,7 @@ public class PazMoPubNavigationController: UINavigationController {
     }
 }
 
-extension PazMoPubNavigationController: MPAdViewDelegate {
+extension PazMoPubBannerViewController: MPAdViewDelegate {
     public func viewControllerForPresentingModalView() -> UIViewController! {
         return self.visibleViewController
     }
