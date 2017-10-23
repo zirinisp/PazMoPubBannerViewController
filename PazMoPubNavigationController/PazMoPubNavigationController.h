@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MoPub-Bridging-Header.h"
+#import "MPLogging.h"
 
 //! Project version number for PazMoPubNavigationController.
 FOUNDATION_EXPORT double PazMoPubNavigationControllerVersionNumber;
