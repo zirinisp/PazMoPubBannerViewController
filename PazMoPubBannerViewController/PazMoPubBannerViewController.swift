@@ -135,7 +135,11 @@ public class PazMoPubBannerViewController: UIViewController {
         // Check if the banner has an ad loaded and ready for display.  Move the banner off
         // screen if it does not have an ad.
         if self.bannerLoaded {
-            contentFrame.size.height -= bannerFrame.size.height
+            var offset = bannerFrame.size.height
+            if #available(iOS 11.0, *) {
+                offset += self.view.safeAreaInsets.bottom
+            }
+            contentFrame.size.height -= offset
             bannerFrame.origin.y = contentFrame.size.height
             self.showing = true
         } else {
@@ -195,7 +199,7 @@ extension PazMoPubBannerViewController: MPAdViewDelegate {
     }
     
     public func adViewDidLoadAd(_ view: MPAdView!) {
-        self.showing = true
+        self.bannerLoaded = true
         UIView.animate(withDuration: 0.25) {
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
